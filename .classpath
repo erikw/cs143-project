@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="src/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="src/lib/gson-1.4.jar"/>
+	<classpathentry kind="lib" path="src/lib/guava-r08.jar"/>
+	<classpathentry kind="lib" path="src/lib/javassist-3.12.1.GA.jar"/>
+	<classpathentry kind="lib" path="src/lib/jboss-vfs-3.0.0.CR5.jar"/>
+	<classpathentry kind="lib" path="src/lib/reflections.jar"/>
+	<classpathentry kind="lib" path="src/lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="src/lib/slf4j-simple-1.6.1.jar"/>
+	<classpathentry kind="lib" path="src/lib/xml-apis-1.0.b2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
