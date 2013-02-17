@@ -10,13 +10,14 @@ SOURCES = $(foreach s, $(RAW_SOURCES), $(PACKAGE_DIR)/$(s))
 PICS_DIR = src/pics
 CLASSPATH = "$(PICS_DIR);src;.;$(PACKAGE_DIR);src/lib/reflections.jar;src/lib/dom4j-1.6.1.jar;src/lib/gson-1.4.jar;src/lib/guava-r08.jar;src/lib/javassist-3.12.1.GA.jar;src/lib/jboss-vfs-3.0.0.CR5.jar;src/lib/slf4j-api-1.6.1.jar;src/lib/slf4j-simple-1.6.1.jar;src/lib/xml-apis-1.0.b2.jar"
 
-#all: classes javadocs tarfile jarfile
-all: classes tarfile jarfile
-
 classes: $(SOURCES) Makefile
 #We need to tell java compiler where to put the package hierarchy (current directory)
 	javac -cp $(CLASSPATH) $(SOURCES)
 	@echo 'To run do "java com.jimweller.cpuscheduler.MainApp" or "make run"'
+
+#all: classes javadocs tarfile jarfile
+all: classes tarfile jarfile
+
 
 #javadocs: classes dirs
 	#javadoc -private -version -author -d ../javadocs/ *.java > ../javadocs/javadoc.log 2>&1
