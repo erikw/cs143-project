@@ -10,6 +10,7 @@
 package com.jimweller.cpuscheduler;
 
 public interface SchedulingAlgorithm {
+
     /** Add the new job to the correct queue.*/
     public void addJob(Process p);
     

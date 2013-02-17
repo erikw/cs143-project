@@ -94,7 +94,7 @@ public class CPUScheduler {
 			p = new Process();
 			allProcs.add(p);
 		}
-		LoadJobQueue(allProcs);
+		loadJobQueue(allProcs);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class CPUScheduler {
 	CPUScheduler(Vector ap) {
 		activeJob = null;
 		allProcs = ap;
-		LoadJobQueue(ap);
+		loadJobQueue(ap);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class CPUScheduler {
 		} catch (FileNotFoundException fnfe) {
 		} catch (IOException ioe) {
 		}
-		LoadJobQueue(allProcs);
+		loadJobQueue(allProcs);
 	}
 
 	/**
@@ -160,21 +160,21 @@ public class CPUScheduler {
 		} catch (FileNotFoundException fnfe) {
 		} catch (IOException ioe) {
 		}
-		LoadJobQueue(allProcs);
+		loadJobQueue(allProcs);
 	}
 
 	/**
 	 * Use the appropriate scheduler to choose the next process. Then dispatch
 	 * the process.
 	 */
-	void Schedule() {
+	void schedule() {
 		Process p = null;
 		activeJob = schedulingAlgorithm.getNextJob(currentTime);
-		Dispatch();
+		dispatch();
 	}
 
 	/** Actually run the active job and wait the rest of them */
-	void Dispatch() {
+	void dispatch() {
 		Process p = null;
 
 		if (activeJob != null)
@@ -289,7 +289,7 @@ public class CPUScheduler {
 	}
 
 	/** Check for new jobs. */
-	void LoadReadyQueue() {
+	void loadReadyQueue() {
 		Process p;
 		for (int i = 0; i < jobQueue.size(); i++) {
 			p = (Process) jobQueue.get(i);
@@ -303,7 +303,7 @@ public class CPUScheduler {
 	}
 
 	/** Remove finished jobs. */
-	void PurgeReadyQueue() {
+	void purgeReadyQueue() {
 		Process p;
 		for (int i = 0; i < readyQueue.size(); i++) {
 			p = (Process) readyQueue.get(i);
@@ -315,8 +315,10 @@ public class CPUScheduler {
 		}
 	}
 
-	/** Get rid of jobs that are done */
-	void PurgeJobQueue() {
+	/**
+	 * Get rid of jobs that are done.
+	 */
+	void purgeJobQueue() {
 		Process p;
 		for (int i = 0; i < jobQueue.size(); i++) {
 			p = (Process) jobQueue.get(i);
@@ -327,8 +329,10 @@ public class CPUScheduler {
 		}
 	}
 
-	/** Load all the jobs into the job queue and setup their arrival times */
-	public void LoadJobQueue(Vector jobs) {
+	/**
+	 * Load all the jobs into the job queue and setup their arrival times.
+	 */
+	public void loadJobQueue(Vector jobs) {
 		Process p;
 		long arTime = 0;
 		for (int i = 0; i < jobs.size(); i++) {
@@ -349,7 +353,9 @@ public class CPUScheduler {
 		}
 	}
 
-	/** Dump ready queue to terminal. */
+	/**
+	 * Dump ready queue to terminal.
+	 */
 	public void printReadyQueue() {
 		Process p;
 		for (int i = 0; i < readyQueue.size(); i++) {
@@ -359,7 +365,9 @@ public class CPUScheduler {
 		}
 	}
 
-	/** kindof nice looking table. Java sucks for text formatting. Printf? */
+	/** 
+	 * Kindof nice looking table.
+	 */
 	public void printTable() {
 		Process p;
 		for (int i = 0; i < allProcs.size(); i++) {
@@ -368,7 +376,9 @@ public class CPUScheduler {
 		}
 	}
 
-	/** kindof ugly table to import into spreadsheet. */
+	/** 
+	 * Kindof ugly table to import into spreadsheet.
+	 */
 	public void printCSV() {
 		Process p;
 		System.out.println(getAlgorithmName() + ","
@@ -398,7 +408,9 @@ public class CPUScheduler {
 				+ nf.format(sDevResponse) + "," + nf.format(sDevTurn));
 	}
 
-	/** kindof ugly table to import into spreadsheet. */
+	/**
+	 * kindof ugly table to import into spreadsheet.
+	 */
 	public void printCSV(PrintWriter pw) {
 		Process p;
 		pw.println(getAlgorithmName() + ","
@@ -528,9 +540,10 @@ public class CPUScheduler {
 	}
 
 	/** Run the whole simulation in one while loop */
-	public void Simulate() {
-		while (nextCycle())
+	public void simulate() {
+		while (nextCycle()) {
 			;
+		}
 	}
 
 	/**
@@ -543,12 +556,12 @@ public class CPUScheduler {
 		if (jobQueue.isEmpty()) {
 			moreCycles = false;
 		} else {
-			LoadReadyQueue();
+			loadReadyQueue();
 			moreCycles = true;
 			if (readyQueue.isEmpty()) {
 				idle++;
 			} else {
-				Schedule();
+				schedule();
 				busy++;
 				cleanUp();
 			}
@@ -562,8 +575,8 @@ public class CPUScheduler {
 	 * Purge the runtime queues
 	 */
 	void cleanUp() {
-		PurgeJobQueue();
-		PurgeReadyQueue();
+		purgeJobQueue();
+		purgeReadyQueue();
 	}
 
 	/**
@@ -602,7 +615,7 @@ public class CPUScheduler {
 		}
 		jobQueue.clear();
 		readyQueue.clear();
-		LoadJobQueue(allProcs);
+		loadJobQueue(allProcs);
 
 	}
 
@@ -731,5 +744,4 @@ public class CPUScheduler {
 	public String getAlgorithmName() {
 		return schedulingAlgorithm.getName();
 	}
-
-}// ENDS class CPUScheduler
+}
