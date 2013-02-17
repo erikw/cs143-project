@@ -19,27 +19,27 @@ classes: $(SOURCES) Makefile
 	@echo 'To run do "java com.jimweller.cpuscheduler.MainApp" or "make run"'
 
 #javadocs: classes dirs
-	#javadoc -private -version -author -d bin/javadocs/ *.java > bin/javadocs/javadoc.log 2>&1
+	#javadoc -private -version -author -d ../javadocs/ *.java > ../javadocs/javadoc.log 2>&1
 
 #dirs: 
-	#mkdir -p bin/javadocs
+	#mkdir -p ../javadocs
 
 jarfile:
 	mkdir -p $(PACKAGE_DIR)
-	cp -a *.class pics $(PACKAGE_DIR)
-	jar	cfm bin/cpu.jar manifest.txt com 
+	#cp -a src/$(PACKAGE_DIR)/*.class pics $(PACKAGE_DIR)
+	jar	cfm ../cpu.jar src/manifest.txt src/com 
 
 #tarfile:
-	#cd bin; tar -czf ../cpu.tar.gz *;mv bin/cpu.tar.gz .
+	#cd ..; tar -czf ../cpu.tar.gz *;mv ../cpu.tar.gz .
 
 tarfile:
 	tar pvczf ../cpu.tar.gz -C .. $(shell basename `pwd`)
 
 clean:
 	rm -rf $(PACKAGE_DIR)/*.class
-	rm -rf *.class bin/cpu.jar bin/cpu.tar.gz bin/javadocs/*
-	#mv bin/javadocs/CVS bin/javadocs/.CVS
-	#mv bin/javadocs/.CVS bin/javadocs/CVS
+	rm -rf *.class ../cpu.jar ../cpu.tar.gz ../javadocs/*
+	#mv ../javadocs/CVS ../javadocs/.CVS
+	#mv ../javadocs/.CVS ../javadocs/CVS
 
 run:
 	java -cp $(CLASSPATH) com.jimweller.cpuscheduler.MainApp
