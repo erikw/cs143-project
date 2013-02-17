@@ -5,4 +5,5 @@ A project in the course [CS143](http://www.ics.uci.edu/~ics143/index-win13.html)
 Compile and run by typing the following commands:
 
 	$ cd cs143_labs/
-	$ make .....
+	$ make 
+	$ make run
