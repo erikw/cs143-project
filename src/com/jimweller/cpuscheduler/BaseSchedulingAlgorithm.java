@@ -2,8 +2,7 @@
  * 
  * An abstract scheduling algorithm for others to inherit from.
  *
- * @author: Kyle Benson
- * Winter 2013
+ * @author: Erik Westrup & Andrew Maltun
  *
  */
 package com.jimweller.cpuscheduler;

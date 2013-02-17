@@ -4,8 +4,7 @@
  *
  * Adapted for CS 143A - Principles of Operating Systems
  * 
- * @author: Kyle Benson
- * Winter 2013
+ * @author: Erik Westrup & Andrew Maltun
  *
  */
 package com.jimweller.cpuscheduler;

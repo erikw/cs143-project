@@ -3,8 +3,7 @@
  * An interface for algorithms that can be set to preempt processes running if a
  * 'higher priority' process appears.
  *
- * @author: Kyle Benson
- * Winter 2013
+ * @author: Erik Westrup & Andrew Maltun
  *
  */
 package com.jimweller.cpuscheduler;

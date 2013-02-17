@@ -8,7 +8,7 @@ import java.text.*;
 /**
  * CPUScheduler runs a simulation of one of four different scheduling algorithms
  * (FCFS,SJF,ROUNDROBIN,PRIORITY). It can be set to run the whole simulation
- * automatically in one fell swoop, or the programmer can imcrement on a step by
+ * automatically in one fell swoop, or the programmer can increment on a step by
  * step basis.
  * 
  * @author Jim Weller
@@ -220,7 +220,7 @@ public class CPUScheduler {
 			if (startedCount > 1) {
 				double sdev = (double) sDevRespondedSquared;
 				sdev -= (double) (sDevResponded * sDevResponded)
-						/ (double) startedCount;
+					/ (double) startedCount;
 				sdev /= (double) (startedCount - 1);
 				sDevResponse = Math.sqrt(sdev);
 			} else {
@@ -268,13 +268,13 @@ public class CPUScheduler {
 			if (finishedCount > 1) {
 				double sdev = (double) sDevWaitedSquared;
 				sdev -= (double) (sDevWaited * sDevWaited)
-						/ (double) finishedCount;
+					/ (double) finishedCount;
 				sdev /= (double) (finishedCount - 1);
 				sDevWait = Math.sqrt(sdev);
 				sdev = 0.0;
 				sdev = (double) sDevTurnedSquared;
 				sdev -= (double) (sDevTurned * sDevTurned)
-						/ (double) finishedCount;
+					/ (double) finishedCount;
 				sdev /= (double) (finishedCount - 1);
 				sDevTurn = Math.sqrt(sdev);
 			} else {
@@ -372,8 +372,8 @@ public class CPUScheduler {
 	public void printCSV() {
 		Process p;
 		System.out.println(getAlgorithmName() + ","
-				   + (getPriority() ? "Priority," : ","));
-				   //+ (getPreemption() ? "Preemptive" : ""));
+				+ (getPriority() ? "Priority," : ","));
+		//+ (getPreemption() ? "Preemptive" : ""));
 		System.out.println("\"PID\"," + "\"Burst\"," + "\"Priority\","
 				+ "\"Arrival\"," + "\"Start\"," + "\"Finish\"," + "\"Wait\","
 				+ "\"Response\"," + "\"Turnaround\"");
@@ -402,8 +402,8 @@ public class CPUScheduler {
 	public void printCSV(PrintWriter pw) {
 		Process p;
 		pw.println(getAlgorithmName() + ","
-			   + (getPriority() ? "Priority," : ","));
-			   //+ (getPreemption() ? "Preemptive" : ""));
+			   	+ (getPriority() ? "Priority," : ","));
+		//+ (getPreemption() ? "Preemptive" : ""));
 		pw.println("\"PID\"," + "\"Burst\"," + "\"Priority\"," + "\"Arrival\","
 				+ "\"Start\"," + "\"Finish\"," + "\"Wait\"," + "\"Response\","
 				+ "\"Turnaround\"");

@@ -2,8 +2,7 @@
  * 
  * A scheduling algorithm that randomly picks the next job to go.
  *
- * @author: Kyle Benson
- * Winter 2013
+ * @author: Erik Westrup & Andrew Maltun
  *
  */
 package com.jimweller.cpuscheduler;
