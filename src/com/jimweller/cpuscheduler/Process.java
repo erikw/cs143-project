@@ -7,7 +7,7 @@ import java.io.*;
  *   maintain all of it's state internally.
  *   @author Jim Weller
  */
-public class Process{
+public class Process {
 
     /** The process' identification number. It must be unique. */
     long PID=0;      // [ 0 - sizeof(long) ]
@@ -45,7 +45,7 @@ public class Process{
 
     /** The time that the process firsts begins execution. This will be
 	  set by the scheduler. */
-    long start=0;   
+    long start=0;
 
     /** The time that the process ends execution. This will be
 	  set by the scheduler. */
