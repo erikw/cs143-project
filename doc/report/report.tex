@@ -1,0 +1,127 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage{lipsum}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+%\usepackage[swedish]{babel}
+\usepackage{ifpdf}
+\ifpdf
+	\usepackage{thumbpdf}
+	\usepackage[pdftex,bookmarks=true,pdftitle={TITLE},pdfauthor={Erik Westrup, ...}]{hyperref}
+\else
+	\usepackage{url}
+\fi
+\usepackage[parfill]{parskip}
+\usepackage{graphicx}
+
+
+% Old style of program listings.
+%\usepackage{fancyvrb}	% For source code listing.
+%\fvset{tabsize=4}		% Tabstop is 4 spaces.
+%\fvset{fontsize=\small} % Small fonts for source code.
+
+ %Program listings.
+%\usepackage{listings}
+%\usepackage{color}
+%\definecolor{dkgreen}{rgb}{0,0.6,0}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.58,0,0.82}
+%\lstset {
+				%language=Matlab,						% The language of the code.
+				%basicstyle=\footnotesize,				% The size of the fonts that are used for the code.
+				%numbers=left,							% Where to put the line-numbers.
+				%numberstyle=\tiny\color{gray},			% The style that is used for the line-numbers.
+				%stepnumber=1,							% The step between two line-numbers. If it's 1, each line will be numbered.
+				%numbersep=5pt,							% How far the line-numbers are from the code.
+				%backgroundcolor=\color{white},			% Choose the background color. You must add \usepackage{color}.
+				%showspaces=false,						% Show spaces adding particular underscores.
+				%showstringspaces=false,					% Underline spaces within strings.
+				%showtabs=false,							% Show tabs within strings adding particular underscores.
+				%frame=single,							% Adds a frame around the code.
+				%rulecolor=\color{black},				% If not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here)).
+				%tabsize=2,								% Sets default tabsize to 2 spaces.
+				%captionpos=b,							% Sets the caption-position to bottom.
+				%breaklines=true,						% Sets automatic line breaking.
+				%breakatwhitespace=false,				% Sets if automatic breaks should only happen at whitespace.
+				%title=\lstname,							% Show the filename of files included with \lstinputlisting;  also try caption instead of title.
+				%keywordstyle=\color{blue},				% Keyword style.
+				%commentstyle=\color{dkgreen},			% Comment style.
+				%stringstyle=\color{mauve},				% String literal style.
+				%escapeinside={\							% *}{*)},																									   % If you want to add a comment within your code.
+				%morekeywords={*,...}					% If you want to add more keywords to the set.
+%}
+
+%\newcommand{\matlab}{\small{\emph{MATLAB\textsuperscript{\textregistered}}}}
+
+
+\title{TITLE}
+%\date{}		% Disable date on title page.
+\author{
+		\begin{tabular}{l l}
+				Erik Westrup & \texttt{<ada09ewe@student.lu.se>}\\
+				Author2 & \texttt{<ada09@student.lu.se>}
+		\end{tabular}
+}
+
+
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}	% No page number on title page.
+\end{titlepage}
+%\setcounter{page}{2}
+
+\section{SECTION1}
+\lipsum[1-3]
+
+\subsection{SUBSEC}
+\lipsum[1]
+\emph{\cite{dummy:ref}}
+
+
+%\renewcommand\refname{References}	% Change name of the heading.
+\bibliographystyle{plain}
+\bibliography{references}
+
+\newpage
+\section*{Appendix}
+\appendix
+\end{document}
+
+%\begin{figure}[hbt]
+%\begin{center}
+%\includegraphics[width=\linewidth]{img/pic1.png}
+%\ifpdf
+	%\includegraphics[scale=0.4]{img/pic1.png}
+%\else
+	%\includegraphics[scale=0.4]{img/pic1.eps}
+%\fi
+%\end{center}
+%\caption{DESCRIPTION text.}
+%\label{fig:LABEL}
+%\end{figure}
+%\clearpage
+
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{l | l}
+%Header1 & Header2 \\ \hline
+%1		 & 2	   \\
+%3		 & 4
+%\end{tabular}
+%\end{center}
+%\caption{DESCRIPTION TEXT}
+%\label{table:tab1}
+%\end{table}
+
+%\begin{enumerate}
+%\begin{itemize}
+	%\item Abc
+	%\item Def
+%\end{itemize}
+
+%\VerbatimInput{src/prog1.c}
+
+%\lstinputlisting[language=Java,label=list+prog1,caption={\lstname.  DESCTIPTION.}]{src/prog1.java}
+%\lstinputlisting{src/prog1.java}
+
