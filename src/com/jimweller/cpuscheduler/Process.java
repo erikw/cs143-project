@@ -287,7 +287,6 @@ public class Process {
     	return initBurst;
     }
 
-
     /**
      * Get the value of PID.
      * @return Value of PID.
