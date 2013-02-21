@@ -2,9 +2,7 @@
  * 
  * A single-queue priority scheduling algorithm.
  *
- * @author: Kyle Benson
- * Winter 2013
- *
+ * @author: Erik Westrup & Andrew Maltun
  */
 package com.jimweller.cpuscheduler;
 
@@ -15,22 +13,22 @@ public class PrioritySchedulingAlgorithm extends BaseSchedulingAlgorithm impleme
 
 	private boolean preemptive;
 	PriorityQueue<Process> pQ; 
-	
+
     PrioritySchedulingAlgorithm(){
     	activeJob = null;
     	preemptive = false;
     	createQueue();
     }
-    
+
     protected void createQueue() {
     	pQ = new PriorityQueue<Process>(8, new PriorityComparator());
     }
-    
+
     /** Add the new job to the correct queue.*/
     public void addJob(Process p){
     	pQ.add(p);
     }
-    
+
     /** Returns true if the job was present and was removed. */
     public boolean removeJob(Process p){
     	boolean result = false;
@@ -41,7 +39,7 @@ public class PrioritySchedulingAlgorithm extends BaseSchedulingAlgorithm impleme
     }
 
     /** Transfer all the jobs in the queue of a SchedulingAlgorithm to another, such as
-	when switching to another algorithm in the GUI */
+	  when switching to another algorithm in the GUI */
     public void transferJobsTo(SchedulingAlgorithm otherAlg) {
     	System.out.println("Transfer in progress...");
     	Iterator<Process> iter = pQ.iterator();
@@ -73,7 +71,7 @@ public class PrioritySchedulingAlgorithm extends BaseSchedulingAlgorithm impleme
     }
 
     public String getName(){
-	return "Single-queue Priority";
+		return "Single-queue Priority";
     }
 
     /**
@@ -82,7 +80,7 @@ public class PrioritySchedulingAlgorithm extends BaseSchedulingAlgorithm impleme
     public boolean isPreemptive(){
     	return preemptive;
     }
-    
+
     /**
      * @param v  Value to assign to preemptive.
      */
