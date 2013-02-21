@@ -40,7 +40,6 @@ public class PrioritySchedulingAlgorithm extends BaseSchedulingAlgorithm impleme
     /** Transfer all the jobs in the queue of a SchedulingAlgorithm to another, such as
 	  when switching to another algorithm in the GUI */
     public void transferJobsTo(SchedulingAlgorithm otherAlg) {
-        //System.out.println("Transfer in progress...");
     	Iterator<Process> iter = pQ.iterator();
     	while (iter.hasNext()) {
     		otherAlg.addJob(iter.next());
