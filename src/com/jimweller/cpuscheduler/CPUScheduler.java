@@ -122,9 +122,9 @@ public class CPUScheduler {
 			BufferedReader input = new BufferedReader(new FileReader(filename));
 			while ((s = input.readLine()) != null) {
 				StringTokenizer st = new StringTokenizer(s);
-				b = Long.parseLong(st.nextToken());
-				d = Long.parseLong(st.nextToken());
-				p = Long.parseLong(st.nextToken());
+				b = Long.parseLong(st.nextToken()); // Burst time.
+				d = Long.parseLong(st.nextToken()); // Arrival delay from previous process.
+				p = Long.parseLong(st.nextToken()); // Priority.
 				proc = new Process(b, d, p);
 				allProcs.add(proc);
 			}
