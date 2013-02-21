@@ -20,5 +20,4 @@ public class SJFSchedulingAlgorithm extends PrioritySchedulingAlgorithm {
     public String getName(){
 		return "Shortest job first";
     }
-
 }

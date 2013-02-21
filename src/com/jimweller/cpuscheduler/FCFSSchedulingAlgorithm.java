@@ -34,8 +34,7 @@ public class FCFSSchedulingAlgorithm extends BaseSchedulingAlgorithm {
         //System.out.println("Transfer in progress.");
     	Iterator<Process> iter = pQ.iterator();
     	while (iter.hasNext()) {
-			Process p = iter.next();
-    		otherAlg.addJob(p);
+    		otherAlg.addJob(iter.next());
 			iter.remove();
     	}
     }
