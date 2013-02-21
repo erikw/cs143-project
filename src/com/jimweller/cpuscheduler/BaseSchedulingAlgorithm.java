@@ -1,5 +1,4 @@
 /**
- * 
  * An abstract scheduling algorithm for others to inherit from.
  *
  * @author: Erik Westrup & Andrew Maltun
