@@ -10,81 +10,74 @@ import java.util.Iterator;
 import java.util.PriorityQueue;
 
 public class PrioritySchedulingAlgorithm extends BaseSchedulingAlgorithm implements OptionallyPreemptiveSchedulingAlgorithm {
-
 	private boolean preemptive;
+
 	PriorityQueue<Process> pQ; 
 
-    PrioritySchedulingAlgorithm(){
+    PrioritySchedulingAlgorithm() {
     	activeJob = null;
     	preemptive = false;
     	createQueue();
     }
 
+	/**
+	 * Create a new prioQue.
+	 */
     protected void createQueue() {
     	pQ = new PriorityQueue<Process>(8, new PriorityComparator());
     }
 
     /** Add the new job to the correct queue.*/
-    public void addJob(Process p){
+    public void addJob(Process p) {
     	pQ.add(p);
     }
 
     /** Returns true if the job was present and was removed. */
     public boolean removeJob(Process p){
-    	boolean result = false;
-    	if (!pQ.isEmpty()) {
-    		result = pQ.remove(p);
-    	}
-    	return result;
+    	return pQ.remove(p);
     }
 
     /** Transfer all the jobs in the queue of a SchedulingAlgorithm to another, such as
 	  when switching to another algorithm in the GUI */
     public void transferJobsTo(SchedulingAlgorithm otherAlg) {
-    	System.out.println("Transfer in progress...");
+        //System.out.println("Transfer in progress...");
     	Iterator<Process> iter = pQ.iterator();
-		//pQ.clear();
     	while (iter.hasNext()) {
 			Process p = iter.next();
     		otherAlg.addJob(p);
-			//iter.remove();
+			iter.remove();
     	}
     }
 
-
     /** Returns the next process that should be run by the CPU, null if none available.*/
-    public Process getNextJob(long currentTime){
-    	if (this.isPreemptive()) {    	
+    public Process getNextJob(long currentTime) {
+    	if (isPreemptive()) {    	
     		activeJob = pQ.peek();
     	} else {
     		if (activeJob == null) {
-    			if (!pQ.isEmpty()) {
-    				activeJob = pQ.peek();
-    			}
-    		} else {
-    			if (activeJob.isFinished()) {
-    				activeJob = pQ.peek();
-    			}
+    			activeJob = pQ.peek();
+    		} else if (activeJob.isFinished()) {
+    			activeJob = pQ.peek();
     		}
     	}
     	return activeJob;
     }
 
-    public String getName(){
+    public String getName() {
 		return "Single-queue Priority";
     }
 
     /**
      * @return Value of preemptive.
      */
-    public boolean isPreemptive(){
+    public boolean isPreemptive() {
     	return preemptive;
     }
 
     /**
      * @param v  Value to assign to preemptive.
      */
-    public void setPreemptive(boolean  v){
+    public void setPreemptive(boolean v) {
     	preemptive = v;
     }
 }
