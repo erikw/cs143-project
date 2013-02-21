@@ -20,7 +20,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     private int currentJob; 
     
     RoundRobinSchedulingAlgorithm() {
-    	pQ = new PriorityQueue<Process>(8, new FCFSComparator());
+        //pQ = new PriorityQueue<Process>(8, new FCFSComparator()); // TODO use procArrivalcomparator?
     	procs = new Vector<Process>();
     	jobsAdded = 0;
     	currentJob = 0;
