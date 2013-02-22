@@ -49,9 +49,10 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 	  when switching to another algorithm in the GUI */
     public void transferJobsTo(SchedulingAlgorithm otherAlg) {
         handleNewJobs();
-    	Iterator<Process> iter = addedJobs.iterator();
+    	Iterator<Process> iter = rrQ.iterator();
     	while (iter.hasNext()) {
     		otherAlg.addJob(iter.next());
+			iter.remove();
     	}
     	activeJob = null;
     }
@@ -70,7 +71,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
      * NOTE this will only be changed in the GUI when RR is (re-)selected.
      */
     public void setQuantum(int v) { // TODO must we not make sure v > 0? if no, make sure getNextJob() does not break.
-    	System.out.println("setQuantum(" + v + ")");
+        //System.out.println("setQuantum(" + v + ")");
 		quantum = v;
     }
 
