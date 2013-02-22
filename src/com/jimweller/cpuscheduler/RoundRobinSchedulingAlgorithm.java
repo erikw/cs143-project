@@ -93,7 +93,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 				activeJob = rrQ.peek();
 				curTimeQuantum = 0;
 			} else if (activeJob.isFinished()) {
-				activeJob = rrQ.peek();
+				activeJob = rrQ.peek(); // activeJob != rrQ.peek() since clean-up has been done at the end of previous cycle.
 				curTimeQuantum = 0;
 			}
 			++curTimeQuantum;
