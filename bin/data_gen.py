@@ -44,7 +44,7 @@ def parse_args():
     if args.version:
         progname = re.sub("^.*\/", "", inspect.getfile(inspect.currentframe()))
         print("{:s} {:s}".format(progname, __version__))
-        exit()
+        exit(0)
     return args.mean_cpu, args.mean_prio, args.number_procs
 
 def main():
@@ -53,6 +53,7 @@ def main():
     sys.stderr.write(gen.__str__() + "\n")
     sys.stderr.write("Generating output...\n\n")
     print(gen.generate())
+    exit(0)
 
 if __name__ == '__main__':
     main()
