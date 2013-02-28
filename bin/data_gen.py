@@ -2,6 +2,10 @@
 # Generate test data from a normal distribution.
 
 import argparse
+import inspect, os
+import re
+
+VERSION=0.1
 
 class Generator:
     A1_DEFAULT = 1
@@ -18,11 +22,19 @@ class Generator:
 
 #def parse_args(sysargv):
 def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.parse_args()
+    # short options
+    # default values
+    # help msgs
+    # range value must be in interval [0,Inf[
+    parser = argparse.ArgumentParser(description="Generate test data to stdout.")
+    parser.add_argument("-v", "--version", action="store_true", help="Show version number.")
+    args = parser.parse_args()
+    if args.version:
+        progname = re.sub("^.*\/", "", inspect.getfile(inspect.currentframe()))
+        print("{:s} {:f}".format(progname, VERSION))
+        exit()
 
 def main():
-    print("hai")
     parse_args()
     #[a1, a2, a3 ] = parse_args()
     #gen = Generator(a1, a2, a3)
