@@ -15,7 +15,7 @@ class Generator:
         self.__number_procs = number_procs
 
     def __str__(self):
-        return "Generator uses:\n Mean CPU\t\t=\t{:d}\n Mean priotiy\t\t=\t{:d}\n Number of processes\t=\t{:d}".format(self.__mean_cpu, self.__mean_prio, self.__number_procs)
+        return "Generator uses:\n Mean CPU\t\t=\t{:d}\n Mean priority\t\t=\t{:d}\n Number of processes\t=\t{:d}".format(self.__mean_cpu, self.__mean_prio, self.__number_procs)
 
     def generate(self):
         pass
@@ -35,7 +35,7 @@ class IntRange(object):
         return value
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Generate test data to stdout.")
+    parser = argparse.ArgumentParser(description="Generate test data to stdout (and parameter config output to stderr).")
     parser.add_argument("-v", "--version", action="store_true", help="Show version number.")
     parser.add_argument("-c", "--mean-cpu", type=IntRange(1, 99), default=49, help="The mean CPU burst time. Choose from [1, 99].")
     parser.add_argument("-p", "--mean-prio", type=IntRange(0, 9), default=4, help="The mean job priority burst time. Choose from [0, 9].")
