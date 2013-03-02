@@ -85,34 +85,32 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 		handleNewJobs();
 		//printrrQ();
 		if (quantum == 0) {
-			// If the quantum is set to 0, don't try to do anything
+			// If the quantum is set to 0, don't try to do anything.
 			activeJob = null;
 		} else if (rrQ.size() > 0) {
 			if (activeJob == null) {
-				// At the beginning, activeJob==null. Grab job #0. 
+				// At the beginning, activeJob==null. Grab job #0.
 				activeJob = rrQ.get(currJob);
 				curTimeQuantum = 0;
 			} else if ((curTimeQuantum == quantum) && !activeJob.isFinished()) {
-				/* If the quantum has completed, but the job is not finished, 
-				leave it in the queue and set activeJob to the next job (can be circular) */
-				if ((currJob+1) >= rrQ.size()) 
-					currJob = 0;
-				else 
-					currJob++;
+				/* If the quantum has completed, but the job is not finished,
+				   leave it in the queue and set activeJob to the next job (can be circular). */
+				currJob = (currJob + 1) % rrQ.size();
 				activeJob = rrQ.get(currJob);
 				curTimeQuantum = 0;
 			} else if (activeJob.isFinished()) {
+				// activeJob is not in rrQ since it has been cleaned up at the end of the last cycle.
 				/* If the job finishes before the quantum runs out, leave currJob as is (jobs will shift down one index)
 				 * and reset the quantum, UNLESS if the job that finished was the last job in the queue.
 				 */
-				if (currJob >= rrQ.size()) 
-					currJob --;
+				if (currJob == rrQ.size()) {
+					--currJob;
+				}
 				activeJob = rrQ.get(currJob);
-				// activeJob != rrQ.peek() since clean-up has been done at the end of previous cycle.
 				curTimeQuantum = 0;
 			}
 			++curTimeQuantum;
-		} 
+		}
 		return activeJob;
     }
 
