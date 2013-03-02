@@ -12,20 +12,22 @@ import java.util.*;
 
 public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     /** Default time quantum. */
-    private static final int QUANTOM_DEFALT = 10;
+    private static final int QUANTUM_DEFAULT = 10;
 
-    /** The timeslice each process gets */
+    /** The time slice each process gets */
     private int quantum;
     private PriorityQueue<Process> addedJobs;
     private LinkedList<Process> rrQ;
     private Process activeJob;
     private int curTimeQuantum;
+    private int currJob;
 
     RoundRobinSchedulingAlgorithm() {
 		addedJobs = new PriorityQueue<Process>(8, new ProcArrivalComparator());
     	rrQ = new LinkedList<Process>();
-		quantum = QUANTOM_DEFALT;
+		quantum = QUANTUM_DEFAULT;
         curTimeQuantum = 0;
+        currJob = 0;
     }
 
     /** Add the new job to the correct queue. */
@@ -83,17 +85,30 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 		handleNewJobs();
 		//printrrQ();
 		if (quantum == 0) {
+			// If the quantum is set to 0, don't try to do anything
 			activeJob = null;
 		} else if (rrQ.size() > 0) {
 			if (activeJob == null) {
-				activeJob = rrQ.peek();
+				// At the beginning, activeJob==null. Grab job #0. 
+				activeJob = rrQ.get(currJob);
 				curTimeQuantum = 0;
 			} else if ((curTimeQuantum == quantum) && !activeJob.isFinished()) {
-				rrQ.offer(rrQ.poll());
-				activeJob = rrQ.peek();
+				/* If the quantum has completed, but the job is not finished, 
+				leave it in the queue and set activeJob to the next job (can be circular) */
+				if ((currJob+1) >= rrQ.size()) 
+					currJob = 0;
+				else 
+					currJob++;
+				activeJob = rrQ.get(currJob);
 				curTimeQuantum = 0;
 			} else if (activeJob.isFinished()) {
-				activeJob = rrQ.peek(); // activeJob != rrQ.peek() since clean-up has been done at the end of previous cycle.
+				/* If the job finishes before the quantum runs out, leave currJob as is (jobs will shift down one index)
+				 * and reset the quantum, UNLESS if the job that finished was the last job in the queue.
+				 */
+				if (currJob >= rrQ.size()) 
+					currJob --;
+				activeJob = rrQ.get(currJob);
+				// activeJob != rrQ.peek() since clean-up has been done at the end of previous cycle.
 				curTimeQuantum = 0;
 			}
 			++curTimeQuantum;
@@ -116,7 +131,8 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     /**
      * Print the current RRQ.
      */
-    private void printrrQ() {
+    @SuppressWarnings("unused")
+	private void printrrQ() {
     	StringBuilder sb = new StringBuilder();
     	sb.append("rrQ = [");
     	for (Process p : rrQ) {
