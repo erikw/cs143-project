@@ -5,8 +5,16 @@ import sys
 import argparse
 import inspect, os
 import re
+import random
 
 __version__ = "0.1"
+
+CPU_MIN = 1
+CPU_MAX = 99
+DELAY_MIN = 0
+DELAY_MAX = 69
+PRIO_MIN = 0
+PRIO_MAX = 9
 
 class Generator:
     def __init__(self, mean_cpu, mean_prio, number_procs):
@@ -18,7 +26,21 @@ class Generator:
         return "Generator uses:\n Mean CPU\t\t=\t{:d}\n Mean priority\t\t=\t{:d}\n Number of processes\t=\t{:d}".format(self.__mean_cpu, self.__mean_prio, self.__number_procs)
 
     def generate(self):
-        pass
+        cpu_stddev = (CPU_MAX - CPU_MIN) / 6
+        delay_stddev = (DELAY_MAX - DELAY_MIN) / 6
+        prio_stddev = (PRIO_MAX - PRIO_MIN) / 6
+        data = ""
+        for i in range(0, self.__number_procs):
+            cpu_time = self.gauss_nbr(self.__mean_cpu, cpu_stddev, CPU_MIN, CPU_MAX)
+            prio = self.gauss_nbr(self.__mean_prio, prio_stddev, PRIO_MIN, PRIO_MAX)
+            data = data + "{:d}\t0\t{:d}\n".format(cpu_time, prio)
+        return data
+
+    def gauss_nbr(self, mean, stddev, min, max):
+        rnd = round(random.gauss(mean, stddev))
+        if (rnd < min): rnd = min
+        if (rnd > max): rnd = max
+        return rnd
 
 
 # Stolen from http://stackoverflow.com/questions/11272806/pythons-argparse-choices-constrained-printing 
