@@ -41,10 +41,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 
     /** Returns true if the job was present and was removed. */
     public boolean removeJob(Process p) {
-    	boolean result = false;
-    	result = addedJobs.remove(p);
-    	result = rrQ.remove(p) || result;
-    	return result;
+    	return addedJobs.remove(p) || rrQ.remove(p);
     }
 
     /** Transfer all the jobs in the queue of a SchedulingAlgorithm to another, such as
@@ -109,6 +106,8 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 				curTimeQuantum = 0;
 			}
 			++curTimeQuantum;
+		} else {
+			activeJob = null;
 		}
 		return activeJob;
     }
