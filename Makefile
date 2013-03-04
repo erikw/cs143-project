@@ -1,5 +1,5 @@
 # add your scheduling algorithms here!
-SCHEDULING_ALGORITHMS =  RandomSchedulingAlgorithm.java FCFSSchedulingAlgorithm.java SJFSchedulingAlgorithm.java PrioritySchedulingAlgorithm.java RoundRobinSchedulingAlgorithm.java
+SCHEDULING_ALGORITHMS =  RandomSchedulingAlgorithm.java FCFSSchedulingAlgorithm.java SJFSchedulingAlgorithm.java PrioritySchedulingAlgorithm.java RoundRobinSchedulingAlgorithm.java MultilevelPrioritySchedulingAlgorithm.java
 ############################################
 
 #Build up SOURCES to include all java files in the package directory with full relative pathnames

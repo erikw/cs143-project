@@ -73,7 +73,6 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
      * NOTE this will only be changed in the GUI when RR is (re-)selected.
      */
     public void setQuantum(int v) { // TODO must we not make sure v > 0? if no, make sure getNextJob() does not break.
-        //System.out.println("setQuantum(" + v + ")");
 		quantum = v;
     }
 

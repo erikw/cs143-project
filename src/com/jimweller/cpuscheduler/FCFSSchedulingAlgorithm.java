@@ -19,7 +19,6 @@ public class FCFSSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 
     /** Add the new job to the correct queue.*/
     public void addJob(Process p) {
-        //System.out.println("Adding jobb");
 		pQ.add(p);
     }
 
