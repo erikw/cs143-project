@@ -7,7 +7,7 @@ import inspect, os
 import re
 import random
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 CPU_MIN = 1
 CPU_MAX = 99
@@ -32,8 +32,7 @@ class Generator:
         data = ""
         for i in range(0, self.__number_procs):
             cpu_time = self.gauss_nbr(self.__mean_cpu, cpu_stddev, CPU_MIN, CPU_MAX)
-            # TODO what mean delay should be used?
-            delay = self.gauss_nbr((DELAY_MAX - DELAY_MIN) / 2, delay_stddev, DELAY_MIN, DELAY_MAX)
+            delay = random.randrange(DELAY_MIN, DELAY_MAX, 1)
             prio = self.gauss_nbr(self.__mean_prio, prio_stddev, PRIO_MIN, PRIO_MAX)
             data = data + "{:d}\t{:d}\t{:d}\n".format(cpu_time, delay, prio)
         return data
