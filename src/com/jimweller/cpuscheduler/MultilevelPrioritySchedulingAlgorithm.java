@@ -28,12 +28,12 @@ public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingA
     /** Add the new job to the correct queue. */
     public void addJob(Process p) {
     	SchedulingAlgorithm algo = getAlgoFromPrio(p);
-    	algo.add(p);
+    	algo.addJob(p);
     }
 
     private SchedulingAlgorithm getAlgoFromPrio(Process p) {
 		SchedulingAlgorithm algo;
-		int prio = p.getPriorityWeight();
+		long prio = p.getPriorityWeight();
     	if (between(prio, 0, 3)) {
 			algo = que1;
     	} else if (between(prio, 4, 6)) {
@@ -47,17 +47,21 @@ public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingA
     /**
      * Inclusively ranged range check.
      */
-    private boolean between(int number, int min, int max) {
+    private boolean between(long number, int min, int max) {
 		return number >= min && number <= max;
     }
 
     /** Returns true if the job was present and was removed. */
     public boolean removeJob(Process p) {
+    	return que1.removeJob(p) || que2.removeJob(p) || que3.removeJob(p);
     }
 
     /** Transfer all the jobs in the queue of a SchedulingAlgorithm to another, such as
 	  when switching to another algorithm in the GUI */
     public void transferJobsTo(SchedulingAlgorithm otherAlg) {
+    	que1.transferJobsTo(otherAlg);
+    	que2.transferJobsTo(otherAlg);
+    	que3.transferJobsTo(otherAlg);
     }
 
     /**
@@ -67,7 +71,7 @@ public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingA
      */
     public void setQuantum(int v) {
     	super.setQuantum(v);
-    	que1.setQuantum(v)
+    	que1.setQuantum(v);
     	que2.setQuantum(2 * v);
     }
 
@@ -76,6 +80,15 @@ public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingA
      * available.
      */
     public Process getNextJob(long currentTime) {
+    	Process job = null;
+    	if ((job = que1.getNextJob(currentTime)) != null) {
+    		//System.out.println("Picked que1 job.");
+    	} else if ((job = que2.getNextJob(currentTime)) != null) {
+    		//System.out.println("Picked que2 job.");
+		} else if ((job = que3.getNextJob(currentTime)) != null) {
+			//System.out.println("Picked que3 job.");
+		}
+    	return job;
     }
 
     public String getName() {
