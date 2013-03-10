@@ -10,11 +10,15 @@ package com.jimweller.cpuscheduler;
 
 import java.util.*;
 
-public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingAlgorithm {
+public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingAlgorithm implements OptionallyPreemptiveSchedulingAlgorithm {
+
+	private boolean preemptive;
+	private Process curJob;
 
 	private RoundRobinSchedulingAlgorithm que1;
 	private RoundRobinSchedulingAlgorithm que2;
 	private FCFSSchedulingAlgorithm	que3;
+
 
     /** The time slice each process gets */
 
@@ -23,6 +27,8 @@ public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingA
     	que2 = new RoundRobinSchedulingAlgorithm();
     	que3 = new FCFSSchedulingAlgorithm();
     	setQuantum(10);
+    	curJob = null;
+    	preemptive = false;
     }
 
     /** Add the new job to the correct queue. */
@@ -80,6 +86,13 @@ public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingA
      * available.
      */
     public Process getNextJob(long currentTime) {
+    	if (isPreemptive() || curJob == null || curJob.isFinished()) {
+				curJob = pollJobFromQueues(currentTime);
+    	}
+    	return curJob;
+    }
+
+    private Process pollJobFromQueues(long currentTime) {
     	Process job = null;
     	if ((job = que1.getNextJob(currentTime)) != null) {
     		//System.out.println("Picked que1 job.");
@@ -88,11 +101,25 @@ public class MultilevelPrioritySchedulingAlgorithm extends RoundRobinSchedulingA
 		} else if ((job = que3.getNextJob(currentTime)) != null) {
 			//System.out.println("Picked que3 job.");
 		}
-    	return job;
+		return job;
     }
 
     public String getName() {
 		return "Multilevel Priority";
+    }
+
+    /**
+     * @return Value of preemptive.
+     */
+    public boolean isPreemptive() {
+    	return preemptive;
+    }
+
+    /**
+     * @param v  Value to assign to preemptive.
+     */
+    public void setPreemptive(boolean v) {
+    	preemptive = v;
     }
 }
 
