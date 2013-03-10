@@ -49,14 +49,8 @@ public class PrioritySchedulingAlgorithm extends BaseSchedulingAlgorithm impleme
 
     /** Returns the next process that should be run by the CPU, null if none available.*/
     public Process getNextJob(long currentTime) {
-    	if (isPreemptive()) {    	
-    		activeJob = pQ.peek();
-    	} else {
-    		if (activeJob == null) {
+    	if (isPreemptive() || activeJob == null || activeJob.isFinished()) {
     			activeJob = pQ.peek();
-    		} else if (activeJob.isFinished()) {
-    			activeJob = pQ.peek();
-    		}
     	}
     	return activeJob;
     }
