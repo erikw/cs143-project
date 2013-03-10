@@ -12,7 +12,7 @@ public class MainApp   {
     public static void main(String args[]){
 
     CPUScheduler cpu = new CPUScheduler();
-    //cpu.simulate();
+    //cpu.Simulate();
     //cpu.printCSV();
     CPUSchedulerFrame fr = new CPUSchedulerFrame();
 

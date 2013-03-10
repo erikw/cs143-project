@@ -8,7 +8,7 @@ import java.text.*;
 /**
  * CPUScheduler runs a simulation of one of four different scheduling algorithms
  * (FCFS,SJF,ROUNDROBIN,PRIORITY). It can be set to run the whole simulation
- * automatically in one fell swoop, or the programmer can increment on a step by
+ * automatically in one fell swoop, or the programmer can imcrement on a step by
  * step basis.
  * 
  * @author Jim Weller
@@ -17,7 +17,7 @@ import java.text.*;
 
 public class CPUScheduler {
 	/** Which scheduling algorithm is in use currently */
-	private SchedulingAlgorithm schedulingAlgorithm = new RandomSchedulingAlgorithm();
+	private SchedulingAlgorithm schedulingAlgorithm;
 
 	/**
 	 * The default number of processes to randomly generate. The programmer can
@@ -48,13 +48,13 @@ public class CPUScheduler {
 	 * The collection of all processes involved in this simulation. Extraneous
 	 * now but handy for debugging.
 	 */
-	private Vector allProcs = new Vector(DEF_PROC_COUNT);
+	private Vector<Process> allProcs = new Vector<Process>(DEF_PROC_COUNT);
 
 	/** The collection of all jobs that will be used */
-	private Vector jobQueue = new Vector(DEF_PROC_COUNT);
+	private Vector<Process> jobQueue = new Vector<Process>(DEF_PROC_COUNT);
 
 	/** The collection of all jobs that have arrived and require CPU time. */
-	private Vector readyQueue = new Vector(DEF_PROC_COUNT);
+	private Vector<Process> readyQueue = new Vector<Process>(DEF_PROC_COUNT);
 
 	/**
 	 * A reference to the currently active job. The cpu changes this reference
@@ -82,7 +82,10 @@ public class CPUScheduler {
 	 */
 	CPUScheduler() {
 		buildRandomQueue();
+		schedulingAlgorithm = new RandomSchedulingAlgorithm();
 	}
+	
+	
 
 	/** Empty and populate a CPUScheduler */
 	void buildRandomQueue() {
@@ -94,17 +97,17 @@ public class CPUScheduler {
 			p = new Process();
 			allProcs.add(p);
 		}
-		loadJobQueue(allProcs);
+		LoadJobQueue(allProcs);
 	}
 
 	/**
 	 * Articulate constructor that allows the programmer to design his/her own
 	 * Vector of processes and use them in the scheduler
 	 */
-	CPUScheduler(Vector ap) {
+	CPUScheduler(Vector<Process> ap) {
 		activeJob = null;
 		allProcs = ap;
-		loadJobQueue(ap);
+		LoadJobQueue(ap);
 	}
 
 	/**
@@ -122,9 +125,9 @@ public class CPUScheduler {
 			BufferedReader input = new BufferedReader(new FileReader(filename));
 			while ((s = input.readLine()) != null) {
 				StringTokenizer st = new StringTokenizer(s);
-				b = Long.parseLong(st.nextToken()); // Burst time.
-				d = Long.parseLong(st.nextToken()); // Arrival delay from previous process.
-				p = Long.parseLong(st.nextToken()); // Priority.
+				b = Long.parseLong(st.nextToken());
+				d = Long.parseLong(st.nextToken());
+				p = Long.parseLong(st.nextToken());
 				proc = new Process(b, d, p);
 				allProcs.add(proc);
 			}
@@ -132,7 +135,7 @@ public class CPUScheduler {
 		} catch (FileNotFoundException fnfe) {
 		} catch (IOException ioe) {
 		}
-		loadJobQueue(allProcs);
+		LoadJobQueue(allProcs);
 	}
 
 	/**
@@ -160,21 +163,21 @@ public class CPUScheduler {
 		} catch (FileNotFoundException fnfe) {
 		} catch (IOException ioe) {
 		}
-		loadJobQueue(allProcs);
+		LoadJobQueue(allProcs);
 	}
 
 	/**
 	 * Use the appropriate scheduler to choose the next process. Then dispatch
 	 * the process.
 	 */
-	void schedule() {
+	void Schedule() {
 		Process p = null;
 		activeJob = schedulingAlgorithm.getNextJob(currentTime);
-		dispatch();
+		Dispatch();
 	}
 
 	/** Actually run the active job and wait the rest of them */
-	void dispatch() {
+	void Dispatch() {
 		Process p = null;
 
 		if (activeJob != null)
@@ -220,7 +223,7 @@ public class CPUScheduler {
 			if (startedCount > 1) {
 				double sdev = (double) sDevRespondedSquared;
 				sdev -= (double) (sDevResponded * sDevResponded)
-					/ (double) startedCount;
+						/ (double) startedCount;
 				sdev /= (double) (startedCount - 1);
 				sDevResponse = Math.sqrt(sdev);
 			} else {
@@ -268,13 +271,13 @@ public class CPUScheduler {
 			if (finishedCount > 1) {
 				double sdev = (double) sDevWaitedSquared;
 				sdev -= (double) (sDevWaited * sDevWaited)
-					/ (double) finishedCount;
+						/ (double) finishedCount;
 				sdev /= (double) (finishedCount - 1);
 				sDevWait = Math.sqrt(sdev);
 				sdev = 0.0;
 				sdev = (double) sDevTurnedSquared;
 				sdev -= (double) (sDevTurned * sDevTurned)
-					/ (double) finishedCount;
+						/ (double) finishedCount;
 				sdev /= (double) (finishedCount - 1);
 				sDevTurn = Math.sqrt(sdev);
 			} else {
@@ -289,7 +292,7 @@ public class CPUScheduler {
 	}
 
 	/** Check for new jobs. */
-	void loadReadyQueue() {
+	void LoadReadyQueue() {
 		Process p;
 		for (int i = 0; i < jobQueue.size(); i++) {
 			p = (Process) jobQueue.get(i);
@@ -303,7 +306,7 @@ public class CPUScheduler {
 	}
 
 	/** Remove finished jobs. */
-	void purgeReadyQueue() {
+	void PurgeReadyQueue() {
 		Process p;
 		for (int i = 0; i < readyQueue.size(); i++) {
 			p = (Process) readyQueue.get(i);
@@ -315,10 +318,8 @@ public class CPUScheduler {
 		}
 	}
 
-	/**
-	 * Get rid of jobs that are done.
-	 */
-	void purgeJobQueue() {
+	/** Get rid of jobs that are done */
+	void PurgeJobQueue() {
 		Process p;
 		for (int i = 0; i < jobQueue.size(); i++) {
 			p = (Process) jobQueue.get(i);
@@ -329,11 +330,10 @@ public class CPUScheduler {
 		}
 	}
 
-	/**
-	 * Load all the jobs into the job queue and setup their arrival times.
-	 */
-	public void loadJobQueue(Vector jobs) {
-		Process p;
+	/** Load all the jobs into the job queue and setup their arrival times */
+	public void LoadJobQueue(Vector jobs) {
+	        schedulingAlgorithm = new RandomSchedulingAlgorithm();
+	        Process p;
 		long arTime = 0;
 		for (int i = 0; i < jobs.size(); i++) {
 			p = (Process) jobs.get(i);
@@ -353,9 +353,7 @@ public class CPUScheduler {
 		}
 	}
 
-	/**
-	 * Dump ready queue to terminal.
-	 */
+	/** Dump ready queue to terminal. */
 	public void printReadyQueue() {
 		Process p;
 		for (int i = 0; i < readyQueue.size(); i++) {
@@ -365,9 +363,7 @@ public class CPUScheduler {
 		}
 	}
 
-	/** 
-	 * Kindof nice looking table.
-	 */
+	/** kindof nice looking table. Java sucks for text formatting. Printf? */
 	public void printTable() {
 		Process p;
 		for (int i = 0; i < allProcs.size(); i++) {
@@ -376,14 +372,12 @@ public class CPUScheduler {
 		}
 	}
 
-	/** 
-	 * Kindof ugly table to import into spreadsheet.
-	 */
+	/** kindof ugly table to import into spreadsheet. */
 	public void printCSV() {
 		Process p;
 		System.out.println(getAlgorithmName() + ","
-				+ (getPriority() ? "Priority," : ","));
-		//+ (getPreemption() ? "Preemptive" : ""));
+				   + (getPriority() ? "Priority," : ","));
+				   //+ (getPreemption() ? "Preemptive" : ""));
 		System.out.println("\"PID\"," + "\"Burst\"," + "\"Priority\","
 				+ "\"Arrival\"," + "\"Start\"," + "\"Finish\"," + "\"Wait\","
 				+ "\"Response\"," + "\"Turnaround\"");
@@ -408,14 +402,12 @@ public class CPUScheduler {
 				+ nf.format(sDevResponse) + "," + nf.format(sDevTurn));
 	}
 
-	/**
-	 * kindof ugly table to import into spreadsheet.
-	 */
+	/** kindof ugly table to import into spreadsheet. */
 	public void printCSV(PrintWriter pw) {
 		Process p;
 		pw.println(getAlgorithmName() + ","
-			   	+ (getPriority() ? "Priority," : ","));
-		//+ (getPreemption() ? "Preemptive" : ""));
+			   + (getPriority() ? "Priority," : ","));
+			   //+ (getPreemption() ? "Preemptive" : ""));
 		pw.println("\"PID\"," + "\"Burst\"," + "\"Priority\"," + "\"Arrival\","
 				+ "\"Start\"," + "\"Finish\"," + "\"Wait\"," + "\"Response\","
 				+ "\"Turnaround\"");
@@ -448,7 +440,7 @@ public class CPUScheduler {
 	 */
 	public void setAlgorithm(SchedulingAlgorithm algo) {
 	    schedulingAlgorithm.transferJobsTo(algo);
-		schedulingAlgorithm = algo;
+	    schedulingAlgorithm = algo;
 	}
 
 	/**
@@ -540,10 +532,9 @@ public class CPUScheduler {
 	}
 
 	/** Run the whole simulation in one while loop */
-	public void simulate() {
-		while (nextCycle()) {
+	public void Simulate() {
+		while (nextCycle())
 			;
-		}
 	}
 
 	/**
@@ -556,12 +547,12 @@ public class CPUScheduler {
 		if (jobQueue.isEmpty()) {
 			moreCycles = false;
 		} else {
-			loadReadyQueue();
+			LoadReadyQueue();
 			moreCycles = true;
 			if (readyQueue.isEmpty()) {
 				idle++;
 			} else {
-				schedule();
+				Schedule();
 				busy++;
 				cleanUp();
 			}
@@ -575,8 +566,20 @@ public class CPUScheduler {
 	 * Purge the runtime queues
 	 */
 	void cleanUp() {
-		purgeJobQueue();
-		purgeReadyQueue();
+		PurgeJobQueue();
+		PurgeReadyQueue();
+	}
+	
+	/**
+	 * Creates a new algorithm of the current type to reset it.
+	 */
+	public void resetAlgorithm() {
+		Class<? extends SchedulingAlgorithm> theAlg = schedulingAlgorithm.getClass();
+		try {
+			setAlgorithm(theAlg.newInstance());
+		} catch (Exception e) {
+			System.out.println("Error creating new algorithm!");
+		}
 	}
 
 	/**
@@ -613,10 +616,12 @@ public class CPUScheduler {
 			p = (Process) allProcs.get(i);
 			p.restore();
 		}
+
+		resetAlgorithm();
+		
 		jobQueue.clear();
 		readyQueue.clear();
-		loadJobQueue(allProcs);
-
+		LoadJobQueue(allProcs);
 	}
 
 	/**
@@ -744,4 +749,5 @@ public class CPUScheduler {
 	public String getAlgorithmName() {
 		return schedulingAlgorithm.getName();
 	}
-}
+
+}// ENDS class CPUScheduler

@@ -43,11 +43,6 @@ public class FCFSSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     	return pQ.peek();
     }
 
-    public boolean shouldPreempt(long currentTime) {
-		return false; // TODO whatis this method?
-    }
-
-
     public String getName() {
 		return "First-come first-served";
     }
