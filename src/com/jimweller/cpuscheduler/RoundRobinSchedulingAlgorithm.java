@@ -2,7 +2,7 @@
  *
  * A scheduling algorithm that randomly picks the next job to go.
  *
- * @author: Erik Westrup & Andrew Maltun
+ * @author: Erik Westrup (50471668) & Andrew Maltun (82928815), group #27.
  * Winter 2013
  *
  */
@@ -14,13 +14,23 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     /** Default time quantum. */
     private static final int QUANTUM_DEFAULT = 10;
 
-    /** The time slice each process gets */
+    /* The time slice each process gets */
     private int quantum;
+
+    /* Newly added job not in rrQ yet. */
     private PriorityQueue<Process> addedJobs;
+
+    /* RoundRobin que of jobs in the "robin". */
     private LinkedList<Process> rrQ;
+
+    /* The currently running job. */
     private Process activeJob;
-    private int curTimeQuantum;
+
+    /* Index of activeJob in rrQ. */
     private int currJob;
+
+    /* How long the current job has been running. */
+    private int curTimeQuantum;
 
     RoundRobinSchedulingAlgorithm() {
 		addedJobs = new PriorityQueue<Process>(8, new ProcArrivalComparator());
@@ -30,7 +40,10 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
         currJob = 0;
     }
 
-    /** Add the new job to the correct queue. */
+    /**
+     * Add the new job to the correct queue.
+     * @param p Process to add.
+     */
     public void addJob(Process p) {
     	/* Need to use a prio queue here because we don't know what order jobs will be
     	 * sent in. The prio queue sorts the jobs as they come in. We will process the prio
@@ -39,13 +52,20 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     	addedJobs.add(p);
     }
 
-    /** Returns true if the job was present and was removed. */
+    /**
+     * Returns true if the job was present and was removed.
+     * @param p Process to remove.
+     * @return true if it was found and removed, false otherwise.
+     */
     public boolean removeJob(Process p) {
     	return addedJobs.remove(p) || rrQ.remove(p);
     }
 
-    /** Transfer all the jobs in the queue of a SchedulingAlgorithm to another, such as
-	  when switching to another algorithm in the GUI */
+    /**
+     * Transfer all the jobs in the queue of a SchedulingAlgorithm to another,
+     * such as when switching to another algorithm in the GUI
+     * @param otherAlg The other algorithm to transfer to.
+	 */
     public void transferJobsTo(SchedulingAlgorithm otherAlg) {
         handleNewJobs();
     	Iterator<Process> iter = rrQ.iterator();
@@ -69,13 +89,14 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
      * @param v Value to assign to quantum.
      * NOTE this will only be changed in the GUI when RR is (re-)selected.
      */
-    public void setQuantum(int v) { // TODO must we not make sure v > 0? if no, make sure getNextJob() does not break.
+    public void setQuantum(int v) {
 		quantum = v;
     }
 
     /**
-     * Returns the next process that should be run by the CPU, null if none
-     * available.
+     * Returns the next process that should be run by the CPU.
+     * @param currentTime The current simulation time.
+     * @return The next process or null.
      */
     public Process getNextJob(long currentTime) {
 		handleNewJobs();
@@ -112,12 +133,18 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 		return activeJob;
     }
 
+    /**
+     * Set preemption value.
+     * @param v  Preemptive or not.
+     */
     public String getName() {
 		return "Round Robin";
     }
 
-    /** If any jobs have been added, need to strip them off the prio queue
-     * and put them at the end of the line for RR processing. */
+    /**
+     * If any jobs have been added, need to strip them off the prio queue
+     * and put them at the end of the line for RR processing.
+     */
     private void handleNewJobs() {
     	while (addedJobs.size() > 0) {
     		rrQ.offer(addedJobs.poll());
@@ -125,7 +152,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     }
 
     /**
-     * Print the current RRQ.
+     * Debug-print the current RRQ.
      */
     @SuppressWarnings("unused")
 	private void printrrQ() {
